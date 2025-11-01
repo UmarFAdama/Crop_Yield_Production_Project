@@ -28,3 +28,7 @@ print(X.shape)
 
 y_class = data["label"]
 y_reg = data["yield"]
+
+X_train, X_temp, y_class_train, y_class_temp, y_reg_train, y_reg_temp = train_test_split(
+        X, y_class, y_reg, test_size=0.3, random_state=42, stratify=y_class
+    )
