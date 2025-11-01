@@ -29,6 +29,12 @@ print(X.shape)
 y_class = data["label"]
 y_reg = data["yield"]
 
+# splitting into training and a temporary set
 X_train, X_temp, y_class_train, y_class_temp, y_reg_train, y_reg_temp = train_test_split(
         X, y_class, y_reg, test_size=0.3, random_state=42, stratify=y_class
+    )
+
+#splitting the temporary set into validation and testing set
+X_val, X_test, y_class_val, y_class_test, y_reg_val, y_reg_test = train_test_split(
+        X_temp, y_class_temp, y_reg_temp, test_size=0.5, random_state=42, stratify=y_class_temp
     )
