@@ -1,0 +1,3 @@
+Model,Accuracy (Validation),F1 (Validation),Accuracy (Test),F1 (Test)
+Naive Bays,0.994,0.994,0.991,0.991
+Decision Tree,0.976,0.976,0.982,0.982
