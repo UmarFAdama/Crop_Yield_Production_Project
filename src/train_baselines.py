@@ -16,9 +16,9 @@ model_class = {
 for name, model in model_class.items():
     with mlflow.start_run(run_name=f"Classification - {name}"):
         model.fit(X_train, y_class_train)
-        y_predic_value = model.predict(X_val)
-        acc = accuracy_score(y_class_val, y_predic_value)
-        f1 = f1_score(y_class_val, y_predic_value, average='weighted')
+        y_predic_class = model.predict(X_val)
+        acc = accuracy_score(y_class_val, y_predic_class)
+        f1 = f1_score(y_class_val, y_predic_class, average='weighted')
 
         print(f"{name} :: Accuracy: {acc:.3f}, F1: {f1:.3f}")
 
@@ -38,9 +38,9 @@ model_reg = {
 for name, model in model_reg.items():
     with mlflow.start_run(run_name=f"Regression - {name}"):
         model.fit(X_train, y_reg_train)
-        y_predic_value = model.predict(X_val)
-        mae = mean_absolute_error(y_reg_val,y_predic_value)
-        rmse = np.sqrt(mean_squared_error(y_reg_val,y_predic_value))
+        y_predic_reg = model.predict(X_val)
+        mae = mean_absolute_error(y_reg_val,y_predic_reg)
+        rmse = np.sqrt(mean_squared_error(y_reg_val,y_predic_reg))
         print(f"{name} :: MAE: {mae:.3f}, RMSE: {rmse:.3f}")
 
         # Log to MLflow
@@ -48,6 +48,10 @@ for name, model in model_reg.items():
         mlflow.log_metric("mae", mae)
         mlflow.log_metric("rmse", rmse)
         mlflow.sklearn.log_model(model, name=f"{name}_regressor")
+
+
+best_class_model = GaussianNB()
+
 
 
 '''# confusion matrix for visualization
