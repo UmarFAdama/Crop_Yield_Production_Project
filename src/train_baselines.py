@@ -11,6 +11,8 @@ model_class = {
     "Naive Bays": GaussianNB(),
     "Decision Tree": DecisionTreeClassifier(random_state=42)}
 
+
+
 for name, model in model_class.items():
     with mlflow.start_run(run_name=f"Classification - {name}"):
         model.fit(X_train, y_class_train)
@@ -25,6 +27,8 @@ for name, model in model_class.items():
         mlflow.log_metric("accuracy", acc)
         mlflow.log_metric("f1_score", f1)
         mlflow.sklearn.log_model(model, name =f"{name}_classifier")
+
+#Best classifier: Naive Bayes
 
 model_reg = {
     "Linear Regression":LinearRegression(),
