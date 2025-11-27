@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-data = pd.read_csv(r"C:\Users\LAURA NWENEKA\Documents\Crop_Yield_Production_Project\data\Crop_recommendation.csv")
+data = pd.read_csv(r"\Users\LAURA NWENEKA\Documents\Crop_Yield_Production_Project\data\Crop_recommendation.csv")
 print("Data loaded successfully!")
 
 #data["yield"] = (0.3 * data["N"] + 0.25 * data["P"] + 0.2 * data["K"] + 0.15 * data["rainfall"] + 0.1 * data["temperature"])
@@ -30,3 +30,11 @@ X_train, X_temp, y_class_train, y_class_temp, y_reg_train, y_reg_temp = train_te
 X_val, X_test, y_class_val, y_class_test, y_reg_val, y_reg_test = train_test_split(
         X_temp, y_class_temp, y_reg_temp, test_size=0.5, random_state=42, stratify=y_class_temp
     )
+
+
+__all__ = [
+    "data",
+    "X_train", "X_val", "X_test",
+    "y_class_train", "y_class_val", "y_class_test",
+    "y_reg_train", "y_reg_val", "y_reg_test",
+]

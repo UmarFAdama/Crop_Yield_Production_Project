@@ -12,6 +12,7 @@ from sklearn.tree import DecisionTreeRegressor
 plt.figure(figsize=(10,6))
 sns.countplot(x=data["label"], order=data["label"].value_counts().index)
 plt.title("Class Distribution (Crop Frequency)")
+plt.xticks(rotation=45, ha="right")
 plt.ylabel("Count")
 plt.xlabel("Crop Type")
 plt.tight_layout()
