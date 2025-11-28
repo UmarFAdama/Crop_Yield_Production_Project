@@ -1,15 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, mean_absolute_error, mean_squared_error
 # NN-ready data from features.py
 from features import (
     X_train_nn, X_val_nn, X_test_nn,
     y_class_train_enc, y_class_val_enc, y_class_test_enc,
+    y_reg_train_nn, y_reg_val_nn, y_reg_test_nn
 )
-
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import Adam
+
 
 def build_classification_nn(input_dim, num_classes):
     """
@@ -35,8 +37,25 @@ def build_classification_nn(input_dim, num_classes):
     )
     return model
 
+def build_regression_nn(input_dim):
+    """
+    Simple feedforward neural network for regression on synthetic yield.
+    """
+    model = Sequential()
+    model.add(Dense(64, activation="relu", input_shape=(input_dim,)))
+    model.add(Dropout(0.2))
+    model.add(Dense(32, activation="relu"))
+    model.add(Dense(1, activation="linear"))  # single numeric output
+
+    model.compile(
+        optimizer=Adam(learning_rate=1e-3),
+        loss="mse",  # mean squared error
+    )
+    return model
+
 if __name__ == "__main__":
     # ----- Build and train classification NN -----
+    print("\nTraining classification neural network...")
     num_features = X_train_nn.shape[1]
     num_classes = len(np.unique(y_class_train_enc))
 
@@ -80,3 +99,42 @@ if __name__ == "__main__":
     plt.legend()
     plt.tight_layout()
     plt.show()
+
+    # ===== REGRESSION NN =====
+    print("\nTraining regression neural network...")
+
+    reg_nn = build_regression_nn(num_features)
+
+    history_reg = reg_nn.fit(
+        X_train_nn,
+        y_reg_train_nn,
+        validation_data=(X_val_nn, y_reg_val_nn),
+        epochs=40,
+        batch_size=32,
+        verbose=1,
+    )
+
+    # Validation and test predictions
+    y_val_pred_reg = reg_nn.predict(X_val_nn).ravel()
+    y_test_pred_reg = reg_nn.predict(X_test_nn).ravel()
+
+    # Metrics for Table 2
+    mae_val = mean_absolute_error(y_reg_val_nn, y_val_pred_reg)
+    rmse_val = np.sqrt(mean_squared_error(y_reg_val_nn, y_val_pred_reg))
+    mae_test = mean_absolute_error(y_reg_test_nn, y_test_pred_reg)
+    rmse_test = np.sqrt(mean_squared_error(y_reg_test_nn, y_test_pred_reg))
+
+    print(f"NN Regressor – Validation: MAE = {mae_val:.3f}, RMSE = {rmse_val:.3f}")
+    print(f"NN Regressor – Test:       MAE = {mae_test:.3f}, RMSE = {rmse_test:.3f}")
+
+    # ----- Plot 2: learning curve for regression NN -----
+    plt.figure(figsize=(8, 6))
+    plt.plot(history_reg.history["loss"], label="Train Loss")
+    plt.plot(history_reg.history["val_loss"], label="Validation Loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("MSE Loss")
+    plt.title("Regression NN – Learning Curve")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
