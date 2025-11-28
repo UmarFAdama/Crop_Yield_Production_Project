@@ -1,0 +1,3 @@
+Model,MAE (Validation),RMSE (Validation),MAE (Test),RMSE (Test)
+Linear Regression,3.142,3.932,3.193,3.991
+Decision Tree Regressor,4.595,5.793,4.632,5.768

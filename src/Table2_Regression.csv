@@ -1,0 +1,4 @@
+Model,Val MAE,Test MAE,Val RMSE,Test RMSE
+Linear Regression,3.164,3.165,3.939,3.997
+Decision Tree Regressor (Classical),4.387,4.67,5.477,5.817
+NN Regressor (MLP),3.345,3.48,4.144,4.418
