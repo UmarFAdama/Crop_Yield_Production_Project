@@ -42,9 +42,14 @@ def build_regression_nn(input_dim):
     Simple feedforward neural network for regression on synthetic yield.
     """
     model = Sequential()
+    # Hidden layer 1
     model.add(Dense(64, activation="relu", input_shape=(input_dim,)))
     model.add(Dropout(0.2))
+
+    # Hidden layer 2
     model.add(Dense(32, activation="relu"))
+
+    # Output layer
     model.add(Dense(1, activation="linear"))  # single numeric output
 
     model.compile(

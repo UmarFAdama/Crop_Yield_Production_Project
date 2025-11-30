@@ -6,10 +6,10 @@ import pandas as pd
 table1_data = [
     {
         "Model": "Naive Bayes",
-        "Val Accuracy": 0.995,   # <- replace
-        "Test Accuracy": 0.993,  # <- replace
-        "Val F1": 0.995,         # <- replace
-        "Test F1": 0.993,        # <- replace
+        "Val Accuracy": 0.995,
+        "Test Accuracy": 0.993,
+        "Val F1": 0.995,
+        "Test F1": 0.993,
     },
     {
         "Model": "Decision Tree",
